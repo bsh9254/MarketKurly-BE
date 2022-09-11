@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ResponseDto<T> {
+
     public boolean is_success;
     public T data;
 
@@ -13,4 +14,5 @@ public class ResponseDto<T> {
     {
         return new ResponseDto<T>(true,data);
     }
+
 }
