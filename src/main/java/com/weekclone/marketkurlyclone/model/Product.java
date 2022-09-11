@@ -1,37 +1,41 @@
 package com.weekclone.marketkurlyclone.model;
 
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
 @Getter
-@AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Product {
 
-    @Id @GeneratedValue
+
+    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO) //GenerationType.IDENTITY : ID값이 서로 영향없이 자기만의 테이블 기준으로 올라간다.
+    @Id
     private Long id;
 
+    @Column(nullable = false)
+    private String category_name;
 
-    private Long category_id;
-
-    private String member_uuid;
-
+    @Column(nullable = false)
     private String product_name;
 
-    private Long price;
+    @Column(nullable = false)
+    private int price;
 
-    private Long stock_status;
+    @Column(nullable = false)
+    private int stock_status;
 
-    private String product_img;
+    @Column(nullable = false)
+    private String img_url;
 
+    @Column(nullable = false)
     private String detail;
+
+
 
 }
