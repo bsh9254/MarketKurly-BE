@@ -26,7 +26,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final RecentProductRepository recentProductRepository;
 
-    private final TokenProvider tokenProvider;
+
+    private final MemberService memberService;
     public ResponseDto<?> getAllProduct()
     {
         List<Product> products=productRepository.findAll();
@@ -47,7 +48,7 @@ public class ProductService {
     {
 
         Product product=findPresentProduct(productId);
-        Member member=validateMember(request);
+        Member member=memberService.validateMember(request);
         RecentProduct recentProduct=RecentProduct.builder()
                 .product(product)
                 .member(member)
@@ -59,7 +60,7 @@ public class ProductService {
     }
     public ResponseDto<?> getRecentProduct(HttpServletRequest request)
     {
-        Member member=validateMember(request);
+        Member member=memberService.validateMember(request);
         List<RecentProduct> recentProducts=recentProductRepository.findAllByMember(member);
         List<RecentProductResponseDto> recentProductResponseDtos= new ArrayList<>();
         int index=0;
@@ -86,6 +87,19 @@ public class ProductService {
         return ResponseDto.is_Success(recentProductResponseDtos);
     }
 
+    public ResponseDto<?> sortByCatetory(String categoryName)
+    {
+        List<Product> products=productRepository.findAllByCategoryName(categoryName);
+        List<ProductResponseDto> productResponseDtos=new ArrayList<>();
+        for(Product product:products)
+        {
+            productResponseDtos.add(new ProductResponseDto(product));
+
+        }
+
+        return ResponseDto.is_Success(productResponseDtos);
+    }
+
 
 
     public Product findPresentProduct(Long productId)
@@ -98,12 +112,6 @@ public class ProductService {
 
     ///////구현
 
-    @Transactional
-    public Member validateMember(HttpServletRequest request) {
-        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
-            return null;
-        }
-        return tokenProvider.getMemberFromAuthentication();
-    }
+
 
 }

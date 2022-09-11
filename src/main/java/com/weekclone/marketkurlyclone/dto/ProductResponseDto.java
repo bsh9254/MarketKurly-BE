@@ -13,6 +13,7 @@ public class ProductResponseDto {
 
     private Long id;
 
+    private String category_name;
     private String product_name;
 
     private int price;
@@ -26,6 +27,7 @@ public class ProductResponseDto {
     public ProductResponseDto(Product product)
     {
         this.id= product.getId();
+        this.category_name=product.getCategory_name();
         this.product_name= product.getProduct_name();
         this.price= product.getPrice();
         this.stock_status= product.getStock_status();

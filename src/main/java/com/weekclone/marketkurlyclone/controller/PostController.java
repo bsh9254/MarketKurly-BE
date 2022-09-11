@@ -16,22 +16,29 @@ public class PostController {
 
     private final ProductService productservice;
 
-    @GetMapping("")
+    @GetMapping("/post")
     public ResponseDto<?> getAllProduct()
     {
         return productservice.getAllProduct();
     }
 
-    @GetMapping("{productId}")
+    @GetMapping("/auth/post/{productId}")
     public ResponseDto<?> getProduct(@PathVariable Long productId, HttpServletRequest request)
     {
         return productservice.getProduct(productId,request);
     }
 
-    @GetMapping("")
+    @GetMapping("/auth/post/recentProduct")
     public ResponseDto<?> getRecentProduct(HttpServletRequest request)
     {
         return productservice.getRecentProduct(request);
+    }
+
+    @GetMapping("/post/category/{categoryName}")
+    public ResponseDto<?> sortByCategory(@PathVariable String categoryName)
+    {
+        return productservice.sortByCatetory(categoryName);
+
     }
 
 

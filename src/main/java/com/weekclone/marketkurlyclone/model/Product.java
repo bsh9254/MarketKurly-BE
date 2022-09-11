@@ -19,6 +19,9 @@ public class Product {
     private Long id;
 
     @Column(nullable = false)
+    private String category_name;
+
+    @Column(nullable = false)
     private String product_name;
 
     @Column(nullable = false)
