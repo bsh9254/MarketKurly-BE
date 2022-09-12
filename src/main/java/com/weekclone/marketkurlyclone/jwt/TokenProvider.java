@@ -3,19 +3,15 @@ package com.weekclone.marketkurlyclone.jwt;
 
 
 import com.weekclone.marketkurlyclone.dto.TokenDto;
-import com.weekclone.marketkurlyclone.model.Member;
-import com.weekclone.marketkurlyclone.model.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -102,15 +98,6 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    public Member getMemberFromAuthentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || AnonymousAuthenticationToken.class.
-                isAssignableFrom(authentication.getClass())) {
-            return null;
-        }
-        return ((UserDetailsImpl) authentication.getPrincipal()).getMember();
-    }
-
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -133,4 +120,13 @@ public class TokenProvider {
             return e.getClaims();
         }
     }
+
+    public Long getExpiration(String accessToken) {
+        // accessToken 남은 유효시간 (이 시간만큼 redis에 저장하기 위해 구한다.)
+        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
+    }
+
 }
