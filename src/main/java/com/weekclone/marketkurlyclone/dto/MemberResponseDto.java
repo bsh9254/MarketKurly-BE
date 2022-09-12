@@ -4,15 +4,18 @@ import com.weekclone.marketkurlyclone.model.Authority;
 import com.weekclone.marketkurlyclone.model.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.xml.transform.sax.SAXResult;
 import java.util.UUID;
 
-@Builder
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MemberResponseDto {
 
-        private UUID uuid;
+        private Long id;
         private String memberId;
         private String password;
         private String name;
@@ -29,7 +32,7 @@ public class MemberResponseDto {
 
         public MemberResponseDto(Member member)
         {
-            this.uuid=member.getUuid();
+            this.id=member.getId();
             this.memberId=member.getMemberId();
             this.name=member.getName();
             this.email=member.getEmail();
@@ -41,9 +44,13 @@ public class MemberResponseDto {
             this.authority=member.getAuthority();
             this.policy= member.isPolicy();
             this.invite_user= member.getInvite_user();
-
-
+        }
+        public MemberResponseDto(String memberId){
+            this.memberId=memberId;
         }
 
 
+        public static MemberResponseDto of(Member member) {
+            return new MemberResponseDto(member.getMemberId());
+        }
 }

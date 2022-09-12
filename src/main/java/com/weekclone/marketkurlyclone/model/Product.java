@@ -26,10 +26,11 @@ public class Product {
     @JoinColumn(name="category_id",nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
-
-    @JoinColumn(name="member_uuid",nullable = false)
+    ////
+    @JoinColumn(name="member_id",nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
     @Column(nullable = false)
     private String product_name;
 

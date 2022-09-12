@@ -17,29 +17,29 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     //    @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/cms/post/category", method = RequestMethod.POST)
+    @RequestMapping(value = "/cms/product/category", method = RequestMethod.POST)
     public ResponseDto<?> createCategory(@RequestBody CategoryRequestDto requestDto,
                                          HttpServletRequest request) {
         return categoryService.createCategory(requestDto, request);
     }
 
-    @RequestMapping(value = "/cms/post/category", method = RequestMethod.GET)
+    @RequestMapping(value = "/cms/product/category", method = RequestMethod.GET)
     public ResponseDto<?> getAllCategory() {
         return categoryService.getAllCategory();
     }
 
-    @PutMapping("/cms/post/category/{id}")
+    @PutMapping("/cms/product/category/{id}")
     public ResponseDto<?> updateCategory(@RequestBody CategoryRequestDto requestDto,
                                          @PathVariable Long id, HttpServletRequest request) {
         return categoryService.updateCategory(requestDto, id, request);
     }
 
-    @RequestMapping(value = "/cms/post/category/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/cms/product/category/{id}", method = RequestMethod.DELETE)
     public ResponseDto<?> deleteCategory(@PathVariable Long id, HttpServletRequest request) {
         return categoryService.deleteCategory(id, request);
     }
 
-    @GetMapping("/post/category/{id}")
+    @GetMapping("/product/category/{id}")
     public ResponseDto<?> sortByCategory(@PathVariable Long id)
     {
         return categoryService.sortByCatetory(id);

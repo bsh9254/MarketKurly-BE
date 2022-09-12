@@ -29,7 +29,7 @@ public class ProductResponseDto {
     public ProductResponseDto(Product product)
     {
         this.id= product.getId();
-        this.category_name=product.getCategory().getCategory_name();
+        this.category_name=product.getCategory().getCategoryName();
         this.product_name= product.getProduct_name();
         this.price= product.getPrice();
         this.stock_status= product.getStock_status();

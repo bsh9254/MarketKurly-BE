@@ -19,13 +19,13 @@ public class Category {
     private Long id;
 
     @Column(nullable = false)
-    private String category_name;
+    private String categoryName;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Product> products;
 
     public void update(CategoryRequestDto requestDto) {
-        this.category_name = requestDto.getCategory_name();
+        this.categoryName = requestDto.getCategoryName();
     }
 
 

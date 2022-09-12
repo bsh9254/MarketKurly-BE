@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, UUID> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByMemberId(String memberId);
-
+    boolean existsByMemberId(String memberId);
 }

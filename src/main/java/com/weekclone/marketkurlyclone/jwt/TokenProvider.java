@@ -102,15 +102,6 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    public Member getMemberFromAuthentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || AnonymousAuthenticationToken.class.
-                isAssignableFrom(authentication.getClass())) {
-            return null;
-        }
-        return ((UserDetailsImpl) authentication.getPrincipal()).getMember();
-    }
-
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -126,6 +117,21 @@ public class TokenProvider {
         }
     }
 
+    /*public Member getMemberFromAuthentication() {
+        System.out.println("3-1");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("3-2");
+        if (authentication == null || AnonymousAuthenticationToken.class.
+                isAssignableFrom(authentication.getClass())) {
+            System.out.println("3-3");
+            return null;
+        }
+        System.out.println("3-4");
+        System.out.println(((UserDetailsImpl) authentication.getPrincipal()).getMember());
+        System.out.println("3-5");
+        return ((UserDetailsImpl) authentication.getPrincipal()).getMember();
+    }*/
+
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
@@ -133,4 +139,13 @@ public class TokenProvider {
             return e.getClaims();
         }
     }
+
+    public Long getExpiration(String accessToken) {
+        // accessToken 남은 유효시간 (이 시간만큼 redis에 저장하기 위해 구한다.)
+        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
+    }
+
 }

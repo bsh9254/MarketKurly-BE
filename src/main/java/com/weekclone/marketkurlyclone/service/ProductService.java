@@ -28,7 +28,7 @@ public class ProductService {
     private final RecentProductRepository recentProductRepository;
     private final CategoryService categoryService;
 
-    //private final MemberService memberService;
+    private final MemberService memberService;
     public ResponseDto<?> getAllProduct()
     {
         List<Product> products=productRepository.findAll();
@@ -49,9 +49,8 @@ public class ProductService {
     {
 
         Product product=findPresentProduct(productId);
-        //Member member=memberService.validateMember(request);
+        Member member=memberService.getMemberfromContext();
 
-        Member member=new Member("sanghoon","dd", Authority.ROLE_USER); //로그인 전에 임시로
         RecentProduct recentProduct=RecentProduct.builder()
                 .product(product)
                 .member(member)
@@ -64,10 +63,9 @@ public class ProductService {
     }
     public ResponseDto<?> getRecentProduct(HttpServletRequest request)
     {
-        /*Member member=memberService.validateMember(request);
-        List<RecentProduct> recentProducts=recentProductRepository.findAllByMember(member);*/
+        Member member=memberService.getMemberfromContext();
 
-        List<RecentProduct> recentProducts=recentProductRepository.findAll();  //로그인 전에 임시로
+        List<RecentProduct> recentProducts=recentProductRepository.findAllByMember(member);
         List<RecentProductResponseDto> recentProductResponseDtos= new ArrayList<>();
         int index=0;
         int size=recentProducts.size(); //현재 recentproduct 데이터의 개수
@@ -97,8 +95,7 @@ public class ProductService {
     @Transactional
     public ResponseDto<?> createProduct(@RequestBody ProductRequestDto requestDto, HttpServletRequest request) {
         Category category=categoryService.findPresentCategory(requestDto.getCategory_id());
-        Member member=new Member("sanghoon","1234",Authority.ROLE_USER);//로그인 하면 수정
-
+        Member member=memberService.getMemberfromContext();
         Product product = Product.builder()
                 .category(category)
                 .member(member)
