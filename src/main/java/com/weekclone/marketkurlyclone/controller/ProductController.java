@@ -34,12 +34,7 @@ public class PostController {
         return productservice.getRecentProduct(request);
     }
 
-    @GetMapping("/post/category/{categoryName}")
-    public ResponseDto<?> sortByCategory(@PathVariable String categoryName)
-    {
-        return productservice.sortByCatetory(categoryName);
 
-    }
 
 
 }
