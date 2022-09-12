@@ -1,5 +1,6 @@
 package com.weekclone.marketkurlyclone.model;
 
+import com.weekclone.marketkurlyclone.dto.CategoryRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,8 +24,8 @@ public class Category {
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Product> products;
 
-    public void update(String category_name) {
-        this.category_name = category_name;
+    public void update(CategoryRequestDto requestDto) {
+        this.category_name = requestDto.getCategory_name();
     }
 
 

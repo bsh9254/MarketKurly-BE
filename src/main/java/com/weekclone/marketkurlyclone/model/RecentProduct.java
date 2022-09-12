@@ -27,7 +27,7 @@ public class RecentProduct {
     @OneToOne(fetch = FetchType.LAZY)///이거 정확히 알기
     private Product product;
 
-    @JoinColumn(name="member_id",nullable = false)
+    @JoinColumn(name="member_uuid",nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 

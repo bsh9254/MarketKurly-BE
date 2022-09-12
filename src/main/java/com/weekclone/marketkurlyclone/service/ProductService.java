@@ -1,18 +1,19 @@
 package com.weekclone.marketkurlyclone.service;
 
 import antlr.Token;
+import com.weekclone.marketkurlyclone.dto.ProductRequestDto;
 import com.weekclone.marketkurlyclone.dto.ProductResponseDto;
 import com.weekclone.marketkurlyclone.dto.RecentProductResponseDto;
 import com.weekclone.marketkurlyclone.dto.ResponseDto;
 import com.weekclone.marketkurlyclone.jwt.TokenProvider;
-import com.weekclone.marketkurlyclone.model.Member;
-import com.weekclone.marketkurlyclone.model.Product;
-import com.weekclone.marketkurlyclone.model.RecentProduct;
+import com.weekclone.marketkurlyclone.model.*;
 import com.weekclone.marketkurlyclone.repository.ProductRepository;
 import com.weekclone.marketkurlyclone.repository.RecentProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final RecentProductRepository recentProductRepository;
+    private final CategoryService categoryService;
 
-
-    private final MemberService memberService;
+    //private final MemberService memberService;
     public ResponseDto<?> getAllProduct()
     {
         List<Product> products=productRepository.findAll();
@@ -48,11 +49,14 @@ public class ProductService {
     {
 
         Product product=findPresentProduct(productId);
-        Member member=memberService.validateMember(request);
+        //Member member=memberService.validateMember(request);
+
+        Member member=new Member("sanghoon","dd", Authority.ROLE_USER); //로그인 전에 임시로
         RecentProduct recentProduct=RecentProduct.builder()
                 .product(product)
                 .member(member)
                 .build();
+
         ProductResponseDto productResponseDto=new ProductResponseDto(product);
         recentProductRepository.save(recentProduct);
 
@@ -60,8 +64,10 @@ public class ProductService {
     }
     public ResponseDto<?> getRecentProduct(HttpServletRequest request)
     {
-        Member member=memberService.validateMember(request);
-        List<RecentProduct> recentProducts=recentProductRepository.findAllByMember(member);
+        /*Member member=memberService.validateMember(request);
+        List<RecentProduct> recentProducts=recentProductRepository.findAllByMember(member);*/
+
+        List<RecentProduct> recentProducts=recentProductRepository.findAll();  //로그인 전에 임시로
         List<RecentProductResponseDto> recentProductResponseDtos= new ArrayList<>();
         int index=0;
         int size=recentProducts.size(); //현재 recentproduct 데이터의 개수
@@ -87,21 +93,52 @@ public class ProductService {
         return ResponseDto.is_Success(recentProductResponseDtos);
     }
      /////////////////////다시
-    public ResponseDto<?> sortByCatetory(String categoryName)
-    {
-        List<Product> products=productRepository.findAllByCategoryName(categoryName);
-        List<ProductResponseDto> productResponseDtos=new ArrayList<>();
-        for(Product product:products)
-        {
-            productResponseDtos.add(new ProductResponseDto(product));
 
-        }
+    @Transactional
+    public ResponseDto<?> createProduct(@RequestBody ProductRequestDto requestDto, HttpServletRequest request) {
+        Category category=categoryService.findPresentCategory(requestDto.getCategory_id());
+        Member member=new Member("sanghoon","1234",Authority.ROLE_USER);//로그인 하면 수정
 
-        return ResponseDto.is_Success(productResponseDtos);
+        Product product = Product.builder()
+                .category(category)
+                .member(member)
+                .product_name(requestDto.getProduct_name())
+                .price(requestDto.getPrice())
+                .stock_status(requestDto.getStock_status())
+                .img_url(requestDto.getImg_url())
+                .detail(requestDto.getDetail())
+                .build();
+
+        productRepository.save(product);
+
+        return ResponseDto.is_Success(requestDto.getProduct_name() + " 상품이 등록 되었습니다.");
+
     }
 
+    @Transactional
+    public ResponseDto<?> updateProduct(@PathVariable Long productId,
+                                        @RequestBody ProductRequestDto requestDto, HttpServletRequest request) {
+
+        Product product=findPresentProduct(productId);
+        Category category=categoryService.findPresentCategory(requestDto.getCategory_id());
+
+        product.update(category,requestDto);
 
 
+
+        return ResponseDto.is_Success(requestDto.getProduct_name() + " 로 상품이 수정 되었습니다.");
+
+    }
+
+    @Transactional
+    public ResponseDto<?> deleteProduct(@PathVariable Long productId, HttpServletRequest request) {
+
+        Product product = findPresentProduct(productId);
+        productRepository.delete(product);
+
+        return ResponseDto.is_Success("상품이 삭제 되었습니다.");
+
+    }
     public Product findPresentProduct(Long productId)
     {
         Optional<Product> optionalproduct= productRepository.findById(productId);

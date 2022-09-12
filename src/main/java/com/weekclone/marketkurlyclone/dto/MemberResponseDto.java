@@ -2,16 +2,18 @@ package com.weekclone.marketkurlyclone.dto;
 
 import com.weekclone.marketkurlyclone.model.Authority;
 import com.weekclone.marketkurlyclone.model.Member;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.xml.transform.sax.SAXResult;
 import java.util.UUID;
 
 @Builder
+@AllArgsConstructor
 public class MemberResponseDto {
 
         private UUID uuid;
-        private String user_id;
+        private String memberId;
         private String password;
         private String name;
         private String email;
@@ -28,7 +30,7 @@ public class MemberResponseDto {
         public MemberResponseDto(Member member)
         {
             this.uuid=member.getUuid();
-            this.user_id=member.getUser_id();
+            this.memberId=member.getMemberId();
             this.name=member.getName();
             this.email=member.getEmail();
             this.phone_number=member.getPhone_number();

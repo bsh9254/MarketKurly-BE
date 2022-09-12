@@ -28,18 +28,23 @@ public class CategoryController {
         return categoryService.getAllCategory();
     }
 
-    @RequestMapping(value = "/cms/post/category/{categoryId}", method = RequestMethod.PUT)
+    @PutMapping("/cms/post/category/{id}")
     public ResponseDto<?> updateCategory(@RequestBody CategoryRequestDto requestDto,
-                                         @PathVariable Long categoryId, HttpServletRequest request) {
-        return categoryService.updateCategory(requestDto, categoryId, request);
+                                         @PathVariable Long id, HttpServletRequest request) {
+        return categoryService.updateCategory(requestDto, id, request);
     }
 
-    @RequestMapping(value = "/cms/post/category/{categoryId}", method = RequestMethod.DELETE)
-    public ResponseDto<?> deleteCategory(@PathVariable Long categoryId, HttpServletRequest request) {
-        return categoryService.deleteCategory(categoryId, request);
+    @RequestMapping(value = "/cms/post/category/{id}", method = RequestMethod.DELETE)
+    public ResponseDto<?> deleteCategory(@PathVariable Long id, HttpServletRequest request) {
+        return categoryService.deleteCategory(id, request);
     }
 
+    @GetMapping("/post/category/{id}")
+    public ResponseDto<?> sortByCategory(@PathVariable Long id)
+    {
+        return categoryService.sortByCatetory(id);
 
+    }
 
 
 

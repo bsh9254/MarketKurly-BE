@@ -2,11 +2,13 @@ package com.weekclone.marketkurlyclone.dto;
 
 
 import com.weekclone.marketkurlyclone.model.Product;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Builder
+@AllArgsConstructor
 @Getter
 @Setter
 public class ProductResponseDto {
@@ -27,7 +29,7 @@ public class ProductResponseDto {
     public ProductResponseDto(Product product)
     {
         this.id= product.getId();
-        this.category_name=product.getCategory_name();
+        this.category_name=product.getCategory().getCategory_name();
         this.product_name= product.getProduct_name();
         this.price= product.getPrice();
         this.stock_status= product.getStock_status();

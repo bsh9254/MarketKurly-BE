@@ -20,7 +20,7 @@ public class Member extends Timestamped {
     private UUID uuid;                      //@Column 어노테이션을 꼭 사용할 필요는 없으며, DB의 컬럼 타입이 BINARY(16) 이면 된다.
 
     @Column(nullable = false, unique = true)
-    private String user_id;
+    private String memberId;
 
     @JsonIgnore
     @Column(nullable = false)
@@ -60,8 +60,8 @@ public class Member extends Timestamped {
 
 
     @Builder
-    public Member(String username, String password, Authority authority) {
-        this.user_id = username;
+    public Member(String memberId, String password, Authority authority) {
+        this.memberId = memberId;
         this.password = password;
         this.authority = authority;
 

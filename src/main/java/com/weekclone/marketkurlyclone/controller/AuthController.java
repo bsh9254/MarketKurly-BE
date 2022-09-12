@@ -2,7 +2,6 @@ package com.weekclone.marketkurlyclone.controller;
 //회원가입 로그인 로그아웃
 
 import com.weekclone.marketkurlyclone.dto.ResponseDto;
-import com.weekclone.marketkurlyclone.repository.MemberRepository;
 import com.weekclone.marketkurlyclone.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
