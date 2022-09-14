@@ -24,7 +24,7 @@
 ## 📜 기술스택
 
 ## 🐳  ERD
-![image](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/54daaf3a-abb8-4bc3-b8b8-4628dceb8048/Untitled.png)
+![Untitled (1)](https://user-images.githubusercontent.com/110365670/190194717-3f4b02c5-e21d-4842-9a50-5d747dded60a.png)
 
 ## 🏹 Trouble Shooting
 
