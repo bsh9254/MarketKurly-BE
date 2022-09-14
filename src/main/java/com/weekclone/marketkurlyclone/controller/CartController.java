@@ -24,7 +24,7 @@ public class CartController {
 
     // 장바구니 조회
     @GetMapping("/auth/product/cart")
-    public List<CartResponseDto> showCart(HttpServletRequest request) {
+    public ResponseDto<?> showCart(HttpServletRequest request) {
         return cartService.showCart(request);
     }
 

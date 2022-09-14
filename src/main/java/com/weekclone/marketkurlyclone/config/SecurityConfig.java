@@ -85,11 +85,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/member/**").permitAll()
-                .antMatchers("/post/**").permitAll()  //인증이 필요한 곳은 auth로 구분했다.
+                .antMatchers("/product/**").permitAll()  //인증이 필요한 곳은 auth로 구분했다.
                 .antMatchers("/comment/**").permitAll()
                 .antMatchers("/auth/**").permitAll()//배포때 이거 없애야함
                 .antMatchers("/cms/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
+//                .antMatchers( "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
                 //.mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 //.anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
                 /*.and()					//추가
