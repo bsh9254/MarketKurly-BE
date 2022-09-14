@@ -83,12 +83,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/member/**").permitAll()
-                .antMatchers("/api/post/**").permitAll()  //인증이 필요한 곳은 auth로 구분했다.
-                .antMatchers("/api/comment/**").permitAll()
-                .antMatchers("/api/ip").permitAll()
-                .antMatchers("/api/auth/**").permitAll()//배포때 이거 없애야함
+                .antMatchers("/member/**").permitAll()
+                .antMatchers("/post/**").permitAll()  //인증이 필요한 곳은 auth로 구분했다.
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/ip").permitAll()
+                .antMatchers("/auth/**").permitAll()//배포때 이거 없애야함
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
+//                .antMatchers( "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
                 //.mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 //.anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
                 /*.and()					//추가
