@@ -12,16 +12,22 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 public class Member extends Timestamped {
 
-    @Id
+    /*@Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(nullable = false, columnDefinition = "VARCHAR(36)")
     @Type(type = "uuid-char")
-    private UUID id;
+    private UUID uuid;*/
 
-    @Column(nullable = false, unique = true, name = "member_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String memberId;
 
     @JsonIgnore
@@ -50,7 +56,7 @@ public class Member extends Timestamped {
     private String birth;
 
     @Column
-    private Boolean policy;
+    private boolean policy;
 
     @Column
     private String invite_user;
@@ -58,11 +64,18 @@ public class Member extends Timestamped {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @Builder
+
+    public void updateAuthor(Authority authority)
+    {
+        this.authority=authority;
+
+    }
+
     public Member(String memberId, String password, String name, String email, String phone_number, String address,
-                  String address_detail, String gender, String birth, Boolean policy, String invite_user, Authority authority) {
+                  String address_detail, String gender, String birth, boolean policy, String invite_user, Authority authority) {
 
         this.memberId = memberId;
+
         this.password = password;
         this.name = name;
         this.email = email;
@@ -76,16 +89,17 @@ public class Member extends Timestamped {
         this.authority = authority;
     }
 
+
 //    private String provider;// oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
 //    private String providerId;// oauth2를 이용할 경우 아이디값
 //
-//    /*public Member(GoogleUser googleUser)
+//    public Member(GoogleUser googleUser)
 //    {
 //        this.username=googleUser.getName();
 //        this.email=googleUser.getEmail();
 //        this.password="googlelogin";
 //        this.provider="Google";
-//    }*/
+//    }
 //
 //    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
 //    public Member(String username, String password, String email, Authority authority, String provider, String providerId) {

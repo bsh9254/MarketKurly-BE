@@ -3,15 +3,19 @@ package com.weekclone.marketkurlyclone.jwt;
 
 
 import com.weekclone.marketkurlyclone.dto.TokenDto;
+import com.weekclone.marketkurlyclone.model.Member;
+import com.weekclone.marketkurlyclone.model.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -112,6 +116,21 @@ public class TokenProvider {
             throw new IllegalArgumentException("JWT 토큰이 잘못되었습니다.");
         }
     }
+
+    /*public Member getMemberFromAuthentication() {
+        System.out.println("3-1");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("3-2");
+        if (authentication == null || AnonymousAuthenticationToken.class.
+                isAssignableFrom(authentication.getClass())) {
+            System.out.println("3-3");
+            return null;
+        }
+        System.out.println("3-4");
+        System.out.println(((UserDetailsImpl) authentication.getPrincipal()).getMember());
+        System.out.println("3-5");
+        return ((UserDetailsImpl) authentication.getPrincipal()).getMember();
+    }*/
 
     private Claims parseClaims(String accessToken) {
         try {

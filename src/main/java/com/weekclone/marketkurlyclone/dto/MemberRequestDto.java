@@ -37,7 +37,7 @@ public class MemberRequestDto {
 
     private String birth;
 
-    private Boolean policy;
+    private boolean policy;
 
     private String invite_user;
 

@@ -37,6 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             // redis에 access키가 이미 있는지 검사
             String isLogout = (String)redisTemplate.opsForValue().get(jwt);
+
             if (ObjectUtils.isEmpty(isLogout)) {
                 Authentication authentication = tokenProvider.getAuthentication(jwt);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
