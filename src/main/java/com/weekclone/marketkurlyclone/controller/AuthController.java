@@ -32,10 +32,18 @@ public class AuthController {
     public ResponseDto<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
         return authService.signup(memberRequestDto);
     }
+    //아이디 중복검사
     @PostMapping("/member/idcheck")
     public boolean idcheck(@RequestBody MemberRequestDto memberRequestDto)
     {
         return authService.idcheck(memberRequestDto);
+    }
+
+    // 이메일 중복검사
+    @PostMapping("/member/emailcheck")
+    public boolean emailCheck(@RequestBody MemberRequestDto memberRequestDto)
+    {
+        return authService.emailCheck(memberRequestDto);
     }
 
     // 로그인

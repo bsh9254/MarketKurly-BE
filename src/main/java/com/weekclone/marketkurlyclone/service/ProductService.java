@@ -7,6 +7,7 @@ import com.weekclone.marketkurlyclone.dto.RecentProductResponseDto;
 import com.weekclone.marketkurlyclone.dto.ResponseDto;
 import com.weekclone.marketkurlyclone.jwt.TokenProvider;
 import com.weekclone.marketkurlyclone.model.*;
+import com.weekclone.marketkurlyclone.repository.ImgfileRepository;
 import com.weekclone.marketkurlyclone.repository.ProductRepository;
 import com.weekclone.marketkurlyclone.repository.RecentProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final RecentProductRepository recentProductRepository;
     private final CategoryService categoryService;
+    private final FileUploadService fileUploadService;
+    private final ImgfileRepository imgfileRepository;
 
     private final MemberService memberService;
     public ResponseDto<?> getAllProduct()
@@ -111,6 +116,20 @@ public class ProductService {
         return ResponseDto.is_Success(requestDto.getProduct_name() + " 상품이 등록 되었습니다.");
 
     }
+    @Transactional
+    public ResponseDto<?> addImg(@RequestPart MultipartFile multipartFile,HttpServletRequest request)
+    {
+        Imgfile imgfile=Imgfile.builder()
+                .path(fileUploadService.uploadImage(multipartFile))
+                .build();
+
+        imgfileRepository.save(imgfile);
+        
+
+        return ResponseDto.is_Success(imgfile.getPath());
+    }
+
+
 
     @Transactional
     public ResponseDto<?> updateProduct(@PathVariable Long productId,

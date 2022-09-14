@@ -6,7 +6,9 @@ import com.weekclone.marketkurlyclone.dto.ResponseDto;
 import com.weekclone.marketkurlyclone.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
@@ -49,6 +51,12 @@ public class ProductController {
         return productservice.deleteProduct(productId, request);
     }
 
+
+    @PostMapping("/cms/product/img")
+    public ResponseDto<?> addImg(@RequestPart MultipartFile multipartFile,
+                                 HttpServletRequest request) {
+        return productservice.addImg(multipartFile, request);
+    }
 
 
 }

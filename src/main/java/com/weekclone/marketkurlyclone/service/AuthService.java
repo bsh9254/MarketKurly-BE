@@ -46,22 +46,27 @@ public class AuthService {
         return true;
     }
 
+    public boolean emailCheck(MemberRequestDto memberRequestDto)
+    {
+        if(memberRepository.existsByEmail(memberRequestDto.getEmail()))
+        {
+            return false;
+        }
+        return true;
+    }
+
     @Transactional
     public ResponseDto signup(MemberRequestDto memberRequestDto) {
-        if(!(Pattern.matches("[a-zA-Z0-9]*$",memberRequestDto.getMemberId()) && (memberRequestDto.getMemberId().length() > 3 && memberRequestDto.getMemberId().length() <13)
-                && Pattern.matches("[a-zA-Z0-9]*$",memberRequestDto.getPassword()) && (memberRequestDto.getPassword().length() > 3 && memberRequestDto.getPassword().length() <33))){
+        if(!(Pattern.matches("[a-zA-Z0-9]*$",memberRequestDto.getMemberId()) && (memberRequestDto.getMemberId().length() > 5 && memberRequestDto.getMemberId().length() <17)
+                && Pattern.matches("[a-zA-Z0-9]*$",memberRequestDto.getPassword()) && (memberRequestDto.getPassword().length() > 9 && memberRequestDto.getPassword().length() <33))){
             throw new IllegalArgumentException("닉네임 혹은 비밀번호 조건을 확인해주세요.");
         }
-//        if (memberRepository.existsByUsername(memberRequestDto.getMemberid())) {
-//            throw new IllegalArgumentException("중복된 닉네임입니다.");
-//        }
-        else if (!memberRequestDto.getPassword().equals(memberRequestDto.getPasswordConfirm()))
-            throw new IllegalArgumentException("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         Member member = memberRequestDto.toMember(passwordEncoder);
         memberRepository.save(member);
 
         return ResponseDto.is_Success(member);
     }
+
 
     @Transactional
     public TokenDto login(MemberRequestDto memberRequestDto) {
