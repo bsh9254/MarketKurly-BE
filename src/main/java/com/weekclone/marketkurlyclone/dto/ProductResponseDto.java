@@ -22,7 +22,7 @@ public class ProductResponseDto {
 
     private int stock_status;
 
-    private String img_url;
+    private String imgUrl;
 
     private String detail;
 
@@ -33,7 +33,7 @@ public class ProductResponseDto {
         this.product_name= product.getProduct_name();
         this.price= product.getPrice();
         this.stock_status= product.getStock_status();
-        this.img_url=product.getImg_url();
+        this.imgUrl=product.getImg_url();
         this.detail=product.getDetail();
     }
 

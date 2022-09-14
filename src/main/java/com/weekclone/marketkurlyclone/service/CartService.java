@@ -29,10 +29,10 @@ public class CartService {
     public ResponseDto<?> putCart(Long productId, CartRequestDto cartRequestDto, HttpServletRequest request) {
         Member member = memberService.getMemberfromContext();
         // 장바구니 수량
-        int productCount = cartRequestDto.getProductCount();
+        int productCount = cartRequestDto.getProduct_count();
         System.out.println(productCount);
         // 장바구니 가격
-        int totalPrice = cartRequestDto.getTotalPrice();
+        int totalPrice = cartRequestDto.getTotal_price();
         System.out.println(totalPrice);
         Product product = productRepository.findById(productId).orElseThrow(
                 () -> new IllegalArgumentException("제품이 존재하지 않습니다.")
@@ -52,7 +52,7 @@ public class CartService {
         List<CartResponseDto> cartResponseDtoList = new ArrayList<>();
         List<Cart> cartList = cartRepository.findAllByMemberId(member.getMemberId());
         for(Cart eachCart : cartList) {
-            CartResponseDto cartResponseDto = new CartResponseDto(eachCart.getProduct(), eachCart.getTotalPrice(), eachCart.getProductCount());
+            CartResponseDto cartResponseDto = new CartResponseDto(eachCart.getProduct(), eachCart.getTotal_price(), eachCart.getProduct_count());
             cartResponseDtoList.add(cartResponseDto);
         }
         return cartResponseDtoList;

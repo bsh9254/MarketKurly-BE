@@ -30,12 +30,12 @@ public class CategoryService {
     public ResponseDto<?> createCategory(CategoryRequestDto requestDto, HttpServletRequest request) {
 
         Category category = Category.builder()
-                .categoryName(requestDto.getCategoryName())
+                .categoryName(requestDto.getCategory_name())
                 .build();
 
         categoryRepository.save(category);
 
-        return ResponseDto.is_Success(requestDto.getCategoryName() + " 카테고리가 생성 되었습니다.");
+        return ResponseDto.is_Success(requestDto.getCategory_name() + " 카테고리가 생성 되었습니다.");
 
     }
 
@@ -45,7 +45,7 @@ public class CategoryService {
         List<CategoryResponseDto> categoryResponseDtoList = new ArrayList<>();
         for (Category category : categoryList) {
             categoryResponseDtoList.add(CategoryResponseDto.builder()
-                            .categoryName(category.getCategoryName())
+                            .category_name(category.getCategoryName())
                             .build());
         }
 
@@ -56,7 +56,7 @@ public class CategoryService {
     public ResponseDto<?> updateCategory(CategoryRequestDto requestDto, Long categoryId, HttpServletRequest request) {
         Category category=findPresentCategory(categoryId);
         category.update(requestDto);
-        return ResponseDto.is_Success(requestDto.getCategoryName() + " 로 카테고리가 수정 되었습니다.");
+        return ResponseDto.is_Success(requestDto.getCategory_name() + " 로 카테고리가 수정 되었습니다.");
     }
 
     @Transactional

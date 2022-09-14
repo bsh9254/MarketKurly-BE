@@ -18,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
@@ -56,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().configurationSource(corsConfigurationSource);
@@ -83,11 +84,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/member/**").permitAll()
-                .antMatchers("/api/post/**").permitAll()  //인증이 필요한 곳은 auth로 구분했다.
-                .antMatchers("/api/comment/**").permitAll()
-                .antMatchers("/api/ip").permitAll()
-                .antMatchers("/api/auth/**").permitAll()//배포때 이거 없애야함
+                .antMatchers("/member/**").permitAll()
+                .antMatchers("/post/**").permitAll()  //인증이 필요한 곳은 auth로 구분했다.
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/auth/**").permitAll()//배포때 이거 없애야함
+                .antMatchers("/cms/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 //.mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 //.anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요

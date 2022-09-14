@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class CartRequestDto {
 
-    private int productCount;
-    private int totalPrice;
+    private int product_count;
+    private int total_price;
 
     public CartRequestDto (int productCount, int totalPrice) {
 
-        this.productCount = productCount;
-        this.totalPrice = totalPrice;
+        this.product_count = productCount;
+        this.total_price = totalPrice;
     }
 }

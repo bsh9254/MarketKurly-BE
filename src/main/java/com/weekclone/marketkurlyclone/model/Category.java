@@ -25,7 +25,7 @@ public class Category {
     List<Product> products;
 
     public void update(CategoryRequestDto requestDto) {
-        this.categoryName = requestDto.getCategoryName();
+        this.categoryName = requestDto.getCategory_name();
     }
 
 
