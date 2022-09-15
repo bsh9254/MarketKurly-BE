@@ -1,15 +1,19 @@
 package com.weekclone.marketkurlyclone.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.weekclone.marketkurlyclone.dto.MemberRequestDto;
 import com.weekclone.marketkurlyclone.dto.ResponseDto;
 import com.weekclone.marketkurlyclone.dto.TokenDto;
 import com.weekclone.marketkurlyclone.dto.TokenRequestDto;
 import com.weekclone.marketkurlyclone.model.Member;
+import com.weekclone.marketkurlyclone.oauth.model.OauthResponseModel;
+import com.weekclone.marketkurlyclone.oauth.service.GoogleService;
 import com.weekclone.marketkurlyclone.repository.MemberRepository;
 import com.weekclone.marketkurlyclone.service.AuthService;
 import com.weekclone.marketkurlyclone.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +30,7 @@ public class AuthController {
     private final AuthService authService;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final GoogleService googleService;
 
     // 회원가입
     @PostMapping("/member/signup")
@@ -95,6 +100,24 @@ public class AuthController {
     {
         return memberService.changeMemberAuthority(memberId,authority,request);
     }
+
+    @GetMapping("/api/member/{oauth}/callback")
+    public ResponseEntity<OauthResponseModel> OauthLogin(@RequestParam(name = "code") String code, HttpServletResponse response,
+                                                         @RequestParam(value = "state", required = false) String state , @PathVariable String oauth) throws JsonProcessingException {
+        if(oauth.equals("google"))
+            return googleService.oauthLogin(code, response);
+//        else if (oauth.equals("kakao")) {
+//            return googleService.kakaologin(code, response);
+//        }
+
+        OauthResponseModel oauthResponseModel = OauthResponseModel.builder()
+                .code(HttpStatus.OK.value())
+                .httpStatus(HttpStatus.OK)
+                .message("해당하는 소셜 로그인 정보가 없음").build();
+        //////수정
+        return new ResponseEntity<>(oauthResponseModel, oauthResponseModel.getHttpStatus());
+    }
+
 
 
 }

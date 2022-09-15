@@ -14,6 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileUploadService {
 
+    //private final AWSS3UploadService awss3UploadService;
     private final UploadService s3Service;
 
     public String uploadImage(MultipartFile file)
@@ -24,10 +25,12 @@ public class FileUploadService {
         objectMetadata.setContentType(file.getContentType());
         try(InputStream inputStream=file.getInputStream()){
             s3Service.uploadFile(inputStream,objectMetadata,fileName);
+            //awss3UploadService.uploadFile(inputStream,objectMetadata,fileName);
         }catch (IOException e){
             throw new IllegalArgumentException(String.format("파일 변환 중 에러 발생(%s)"));
         }
         return s3Service.getFileUrl(fileName);
+        //return awss3UploadService.getFileUrl(fileName);
     }
 
 

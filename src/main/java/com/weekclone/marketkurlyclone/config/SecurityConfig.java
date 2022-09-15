@@ -93,8 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers( "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
                 //.mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 //.anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
-                /*.and()					//추가
-                .oauth2Login()*/
+                .and()					//추가
+                .oauth2Login()
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()

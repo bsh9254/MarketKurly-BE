@@ -2,6 +2,7 @@ package com.weekclone.marketkurlyclone.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.weekclone.marketkurlyclone.oauth.dto.GoogleUser;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -90,24 +91,24 @@ public class Member extends Timestamped {
     }
 
 
-//    private String provider;// oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
-//    private String providerId;// oauth2를 이용할 경우 아이디값
-//
-//    public Member(GoogleUser googleUser)
-//    {
-//        this.username=googleUser.getName();
-//        this.email=googleUser.getEmail();
-//        this.password="googlelogin";
-//        this.provider="Google";
-//    }
-//
-//    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
-//    public Member(String username, String password, String email, Authority authority, String provider, String providerId) {
-//        this.username = username;
-//        this.password = password;
-//        this.email = email;
-//        this.authority = authority;
-//        this.provider = provider;
-//        this.providerId = providerId;
-//    }
+    private String provider;// oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
+    private String providerId;// oauth2를 이용할 경우 아이디값
+
+    public Member(GoogleUser googleUser)
+    {
+        this.memberId=googleUser.getName();
+        this.email=googleUser.getEmail();
+        this.password="googlelogin";
+        this.provider="Google";
+    }
+
+    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
+    public Member(String memberId, String password, String email, Authority authority, String provider, String providerId) {
+        this.memberId = memberId;
+        this.password = password;
+        this.email = email;
+        this.authority = authority;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
 }
