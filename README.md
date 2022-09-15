@@ -38,5 +38,11 @@
 - 컬럼명이 카멜표기법과 스네이크표기법으로 서로 다른부분이 있어서 컬럼명을 찾을 수 없는 문제가 발생
 => 카멜표기법으로 통일하여 컬럼명을 작성해서 해결함
 
+- OAuth2(Google) 로그인 구현 중 입력받은 정보와 userDetatils의 정보와 비교해 인증을 하는 과정에서 오류
+=> 비교 인증을 제외하고 입력받은 내용을 바로 UsernamePasswordAuthenticationToken로 만들어서 토큰을 발급함 
+
+- 로그아웃을 진행할 때 Refresh Token Entity상 doesn't have defaul value 에러 생성
+=>Redis를 이용해 로그아웃 구현. 하지만 그냥 DB를 정리해주는 것으로 해결 가능.
+
 ## 🔨 API 설계 
 https://lemon-tilapia-801.notion.site/12-f3d23c59e4294acaa294353920df1b10
