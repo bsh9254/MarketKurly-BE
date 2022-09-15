@@ -1,9 +1,6 @@
 package com.weekclone.marketkurlyclone.service;
 
-import com.weekclone.marketkurlyclone.dto.MemberRequestDto;
-import com.weekclone.marketkurlyclone.dto.ResponseDto;
-import com.weekclone.marketkurlyclone.dto.TokenDto;
-import com.weekclone.marketkurlyclone.dto.TokenRequestDto;
+import com.weekclone.marketkurlyclone.dto.*;
 import com.weekclone.marketkurlyclone.jwt.TokenProvider;
 import com.weekclone.marketkurlyclone.model.Member;
 import com.weekclone.marketkurlyclone.model.RefreshToken;
@@ -17,11 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -37,18 +31,18 @@ public class AuthService {
 
 
 
-    public boolean idcheck(@RequestBody MemberRequestDto memberRequestDto)
+    public boolean idCheck(MemberCheckRequestDto checkRequestDto)
     {
-        if(memberRepository.existsByMemberId(memberRequestDto.getMemberId()))
+        if(memberRepository.existsByMemberId(checkRequestDto.getMemberId()))
         {
             return false;
         }
         return true;
     }
 
-    public boolean emailCheck(MemberRequestDto memberRequestDto)
+    public boolean emailCheck(EmailCheckRequestDto checkRequestDto)
     {
-        if(memberRepository.existsByEmail(memberRequestDto.getEmail()))
+        if(memberRepository.existsByEmail(checkRequestDto.getEmail()))
         {
             return false;
         }
@@ -69,13 +63,13 @@ public class AuthService {
 
 
     @Transactional
-    public TokenDto login(MemberRequestDto memberRequestDto) {
+    public TokenDto login(LoginRequestDto loginRequestDto) {
 //        if (!memberRepository.existsByNickname(memberRequestDto.getNickname()) ||
 //                !memberRepository.existsByPassword(passwordEncoder.encode(memberRequestDto.getPassword()))) {
 //            throw new RuntimeException("사용자를 찾을 수 없습니다");
 //        }
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
-        UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
+        UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication();
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨

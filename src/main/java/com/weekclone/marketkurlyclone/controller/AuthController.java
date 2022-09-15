@@ -1,16 +1,12 @@
 package com.weekclone.marketkurlyclone.controller;
 
 
-import com.weekclone.marketkurlyclone.dto.MemberRequestDto;
-import com.weekclone.marketkurlyclone.dto.ResponseDto;
-import com.weekclone.marketkurlyclone.dto.TokenDto;
-import com.weekclone.marketkurlyclone.dto.TokenRequestDto;
+import com.weekclone.marketkurlyclone.dto.*;
 import com.weekclone.marketkurlyclone.model.Member;
 import com.weekclone.marketkurlyclone.repository.MemberRepository;
 import com.weekclone.marketkurlyclone.service.AuthService;
 import com.weekclone.marketkurlyclone.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,28 +28,29 @@ public class AuthController {
     public ResponseDto<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
         return authService.signup(memberRequestDto);
     }
+
     //아이디 중복검사
     @PostMapping("/member/idcheck")
-    public boolean idcheck(@RequestBody MemberRequestDto memberRequestDto)
+    public boolean idcheck(@RequestBody MemberCheckRequestDto checkRequestDto)
     {
-        return authService.idcheck(memberRequestDto);
+        return authService.idCheck(checkRequestDto);
     }
 
     // 이메일 중복검사
     @PostMapping("/member/emailcheck")
-    public boolean emailCheck(@RequestBody MemberRequestDto memberRequestDto)
+    public boolean emailCheck(@RequestBody EmailCheckRequestDto checkRequestDto)
     {
-        return authService.emailCheck(memberRequestDto);
+        return authService.emailCheck(checkRequestDto);
     }
 
     // 로그인
     @PostMapping("/member/login")
-    public ResponseDto<?> login(@RequestBody MemberRequestDto memberRequestDto, HttpServletResponse response) {
-        TokenDto tokenDto = authService.login(memberRequestDto);
+    public ResponseDto<?> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+        TokenDto tokenDto = authService.login(loginRequestDto);
         response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
         response.setHeader("Refresh-Token", tokenDto.getRefreshToken());
         response.setHeader("Access-Token-Expire-Time", String.valueOf(tokenDto.getAccessTokenExpiresIn()));
-        ResponseDto responseDto = ResponseDto.is_Success(memberRepository.findByMemberId(memberRequestDto.getMemberId()));
+        ResponseDto responseDto = ResponseDto.is_Success(memberRepository.findByMemberId(loginRequestDto.getMemberId()));
         return responseDto;
     }
 
@@ -80,10 +77,10 @@ public class AuthController {
         return userId+"계정 로그아웃!";
     }
 
-    @PostMapping("/member/reissue")  //재발급을 위한 로직
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
-        return ResponseEntity.ok(authService.reissue(tokenRequestDto));
-    }
+//    @PostMapping("/member/reissue")  //재발급을 위한 로직
+//    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+//        return ResponseEntity.ok(authService.reissue(tokenRequestDto));
+//    }
 
     @GetMapping("/cms/member/{memberId}")
     public ResponseDto<?> getMemberInfo(@PathVariable String memberId, HttpServletRequest request)
