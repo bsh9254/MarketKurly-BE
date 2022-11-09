@@ -45,4 +45,4 @@
 =>Redis를 이용해 로그아웃 구현. 하지만 그냥 DB를 정리해주는 것으로 해결 가능.
 
 ## 🔨 API 설계 
-https://lemon-tilapia-801.notion.site/12-f3d23c59e4294acaa294353920df1b10
+https://powerful-iguana-95d.notion.site/02b032f53264463ba47ae5b6e1e2431e?v=4c2d2cdb2cfd4a94b74eb4ed69927724
